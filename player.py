@@ -13,8 +13,12 @@ class Player(Turtle):
         self.shape("turtle")
         self.setposition(STARTING_POSITION)
         self.color("white")
+        self.level = 1
 
     def move(self):
         self.forward(MOVE_DISTANCE)
         if self.ycor() == FINISH_LINE_Y:
             self.setposition(STARTING_POSITION)
+
+    def increase_level(self):
+        self.level += 1
