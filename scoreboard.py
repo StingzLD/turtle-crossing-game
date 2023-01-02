@@ -11,6 +11,7 @@ class Scoreboard(Turtle):
         self.hideturtle()
         self.setposition(POSITION)
         self.color("white")
+        self.display_level(1)
 
     def display_level(self, level):
         self.clear()
@@ -18,4 +19,8 @@ class Scoreboard(Turtle):
                    align="Left",
                    font=FONT)
 
-
+    def game_over(self):
+        self.setposition(x=0, y=-20)
+        self.write("GAME OVER",
+                   align="center",
+                   font=FONT)

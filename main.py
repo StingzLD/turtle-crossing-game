@@ -4,29 +4,42 @@ from player import Player
 from car_manager import CarManager
 from scoreboard import Scoreboard
 
-FINISH_LINE_Y = 280
-
 # Initialize screen
 screen = Screen()
 screen.setup(width=600, height=600)
 screen.tracer(0)
 screen.bgcolor("black")
-screen.listen()
 
-# Initialize scoreboard
+# Initialize objects
 sb = Scoreboard()
-
-# Initialize player
 dog = Player()
+car_manager = CarManager()
+
+# Listen for keypress
+screen.listen()
 screen.onkey(dog.move, "Up")
 
+# PLay game
 game_running = True
 while game_running:
     time.sleep(0.1)
     screen.update()
-    sb.display_level(dog.level)
 
-    if dog.ycor() == FINISH_LINE_Y:
-        dog.increase_level()
+    # Create and move cars
+    car_manager.create_car()
+    car_manager.move_cars()
+
+    # Detect if car hit turtle
+    for car in car_manager.cars:
+        if car.distance(dog) < 20:
+            game_running = False
+            sb.game_over()
+
+    # Detect if turtle crossed successfully
+    if dog.at_finish_line():
+        car_manager.level_up()
+        dog.level_up()
+        sb.display_level(dog.level)
+        dog.go_to_start()
 
 screen.exitonclick()
